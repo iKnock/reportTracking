@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `tbl_evidence`;
-CREATE TABLE IF NOT EXISTS `tbl_evidence` (
+DROP TABLE IF EXISTS `db_reporting_app`.`tbl_evidence`;
+CREATE TABLE IF NOT EXISTS `db_reporting_app`.`tbl_evidence` (
   `evidence_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_report_id` int(11) NOT NULL,
   `evidence_type_id` int(11) NOT NULL,

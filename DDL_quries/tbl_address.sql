@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `tbl_address`;
-CREATE TABLE IF NOT EXISTS `tbl_address` (
+DROP TABLE IF EXISTS `db_reporting_app`.`tbl_address`;
+CREATE TABLE IF NOT EXISTS `db_reporting_app`.`tbl_address` (
   `address_id` int(11) NOT NULL AUTO_INCREMENT,
   `region` varchar(30) NOT NULL,
   `city` varchar(30) NOT NULL,

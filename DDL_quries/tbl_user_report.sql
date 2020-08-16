@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `tbl_user_report`;
-CREATE TABLE IF NOT EXISTS `tbl_user_report` (
+DROP TABLE IF EXISTS `db_reporting_app`.`tbl_user_report`;
+CREATE TABLE IF NOT EXISTS `db_reporting_app`.`tbl_user_report` (
   `user_report_id` int(11) NOT NULL AUTO_INCREMENT,
   `report_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,

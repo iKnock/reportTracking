@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `tbl_lookup`;
-CREATE TABLE IF NOT EXISTS `tbl_lookup` (
+DROP TABLE IF EXISTS `db_reporting_app`.`tbl_lookup`;
+CREATE TABLE IF NOT EXISTS `db_reporting_app`.`tbl_lookup` (
   `lookup_id` int(11) NOT NULL AUTO_INCREMENT,
   `lookup_for` int(11) NOT NULL,
   `lookup_name` varchar(30) NOT NULL,

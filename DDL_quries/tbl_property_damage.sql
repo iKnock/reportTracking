@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `tbl_property_damage`;
-CREATE TABLE IF NOT EXISTS `tbl_property_damage` (
+DROP TABLE IF EXISTS `db_reporting_app`.`tbl_property_damage`;
+CREATE TABLE IF NOT EXISTS `db_reporting_app`.`tbl_property_damage` (
   `property_id` int(11) NOT NULL AUTO_INCREMENT,
   `report_id` int(11) NOT NULL,
   `property_name` varchar(30) NOT NULL,

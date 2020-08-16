@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `tbl_perpetrator`;
-CREATE TABLE IF NOT EXISTS `tbl_perpetrator` (
+DROP TABLE IF EXISTS `db_reporting_app`.`tbl_perpetrator`;
+CREATE TABLE IF NOT EXISTS `db_reporting_app`.`tbl_perpetrator` (
   `perpetrator_id` int(11) NOT NULL AUTO_INCREMENT,
   `report_id` int(11) NOT NULL,
   `perpetrator_name` varchar(50) NOT NULL,

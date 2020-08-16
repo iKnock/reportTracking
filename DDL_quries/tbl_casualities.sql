@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `tbl_casualities`;
-CREATE TABLE IF NOT EXISTS `tbl_casualities` (
+DROP TABLE IF EXISTS `db_reporting_app`.`tbl_casualities`;
+CREATE TABLE IF NOT EXISTS `db_reporting_app`.`tbl_casualities` (
   `casuality_id` int(11) NOT NULL AUTO_INCREMENT,
   `report_id` int(11) NOT NULL,
   `casu_name` varchar(30) NOT NULL,
