@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS `db_reporting_app`.`tbl_address` (
   `local_name` varchar(50) NOT NULL,
   `loc_lat` varchar(50) NOT NULL,
   `loc_long` varchar(50) NOT NULL,
-  `description` varchar(50) NOT NULL,
-  `remark` varchar(50) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  `remark` varchar(200) NOT NULL,
   PRIMARY KEY (`address_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 COMMIT;
