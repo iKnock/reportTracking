@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/iKnock/reportTracking#readme",
   "dependencies": {
-    "mysql": "github:mysqljs/mysql",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.4",
     "sequelize-auto": "^0.5.3"
