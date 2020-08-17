@@ -1,0 +1,1 @@
+sequelize-auto -h 127.0.0.1 -d db_reporting_app -u root -x  -p 3306  --dialect mysql -c ./config/config.json -o ./models -C ut
