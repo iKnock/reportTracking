@@ -1,5 +1,3 @@
-var dbConnection = require('../utils/connection')
-
 class Reports {
 	constructor(reportId, reportTitle, reportDesc, happenOnDate, reportedOnDate, reportCategory, remark) {
 		this.reportId = reportId;
@@ -50,18 +48,8 @@ class Reports {
 			reportedOnDate: this.reportedOnDate,
 			category: this.reportCategory,
 			remark: this.remark
-		};
-
-		/** return `
-		   ReportId: ${this.reportId}
-		   ReportTitle: ${this.reportTitle}
-		   ReportDesc: ${this.reportDesc}
-		   HappenOnDate: ${this.happenOnDate}
-		   ReportedOnDate: ${this.reportedOnDate}
-		   Category: ${this.reportCategory}
-		   Remark: ${this.remark}
-		 `; */
-	}
+		};		
+	}	
 }
 
 module.exports = Reports;

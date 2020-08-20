@@ -1,9 +1,9 @@
 const dbConnection = require('../utils/connection');
-const Reports = require('./reportDao');
+const Reports = require('../models/reportDao');
 
-exports.findAllReport = function(callback) {
-    dbConnection.getConnection(function (connection) {        
-        connection.query('SELECT * FROM tbl_report', function (error, results, fields) {            
+exports.findAllReport = function (callback) {
+    dbConnection.getConnection(function (connection) {
+        connection.query('SELECT * FROM tbl_report', function (error, results, fields) {
             var reports = [];
             for (var i in results) {
                 if (results.hasOwnProperty(i)) {
@@ -28,5 +28,11 @@ exports.findAllReport = function(callback) {
 
 this.findAllReport(function (reports) {
     console.log(reports);
+
+    /**for (var i in reports) {
+        if (reports.hasOwnProperty(i)) {
+            console.log(reports);
+        }
+    }**/
 });
 

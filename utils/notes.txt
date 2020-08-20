@@ -1,0 +1,27 @@
+sequelize-auto -h 127.0.0.1 -d db_reporting_app -u root -x  -p 3306  --dialect mysql -c ./config/config.json -o ./models -C ut
+
+https://hub.arcgis.com/datasets/ethiopia::regions-level-1
+
+https://hub.arcgis.com/search?q=ethiopia
+
+--get duplicate values
+SELECT cc.object_id,cc.c, sum(cc.c)
+from
+(SELECT
+    object_id, COUNT(*) as c
+FROM
+    db_reporting_app.tbl_kebele_distinct
+GROUP BY
+    object_id
+HAVING
+    COUNT(*) > 1 ) cc
+
+/** return `
+		   ReportId: ${this.reportId}
+		   ReportTitle: ${this.reportTitle}
+		   ReportDesc: ${this.reportDesc}
+		   HappenOnDate: ${this.happenOnDate}
+		   ReportedOnDate: ${this.reportedOnDate}
+		   Category: ${this.reportCategory}
+		   Remark: ${this.remark}
+		 `; */
