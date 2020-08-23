@@ -48,7 +48,7 @@ class Region {
 
 	listAllRegions = function (callback) {
 		dbConnection.getConnection(function (connection) {						
-			connection.query('SELECT * FROM tbl_regions', function (error, results, fields) {			
+			connection.query('SELECT * FROM tbl_region', function (error, results, fields) {			
 				var regions = [];	
 				for (var i in results) {
 					if (results.hasOwnProperty(i)) {
@@ -61,9 +61,10 @@ class Region {
 						regions.push(region)
 					}
 				}				
+				callback(regions);	
 				connection.release();// When done with the connection, release it.                    
 				if (error) throw error;// Handle error after the release.        	
-				callback(regions,error);			
+						
 			});
 		})
 	};
