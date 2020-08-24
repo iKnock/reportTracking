@@ -4,9 +4,17 @@ const Woreda = require('../../models/woreda');
 const Kebele = require('../../models/kebele');
 
 const region = new Region();
-region.listAllRegions(function (regions) {
+/**region.listAllRegions(function (regions) {
+    //console.log(regions);
+})**/
+
+try {
+    var regions = region.fetchRegions();
     console.log(regions);
-})
+} catch (error) {
+    console.log("error returned: "+error.code);
+}
+
 
 const zone = new Zone();
 zone.listAllZones(function (zones) {

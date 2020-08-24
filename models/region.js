@@ -25,15 +25,15 @@ class Region {
 	getGlobalId() {
 		return this.globalId;
 	}
-	
+
 	getRegion() {
 		return {
 			objectId: this.objectId,
 			regionName: this.regionName,
 			regionId: this.regionId,
 			globalId: this.globalId
-		};		
-	}	
+		};
+	}
 
 	/**
 	 * 
@@ -47,26 +47,58 @@ class Region {
 	 */
 
 	listAllRegions = function (callback) {
-		dbConnection.getConnection(function (connection) {						
-			connection.query('SELECT * FROM tbl_region', function (error, results, fields) {			
-				var regions = [];	
-				for (var i in results) {
-					if (results.hasOwnProperty(i)) {
-						const region = new Region(
-							results[i].OBJECT_ID,
-							results[i].REGION_NAME,
-							results[i].RID,
-							results[i].Global_ID
-						);
-						regions.push(region)
+		dbConnection.getConnection(function (connection) {
+			connection.query('SELECT * FROM tbl_regions', function (error, results, fields) {
+				try {
+					var regions = [];
+					for (var i in results) {
+						if (results.hasOwnProperty(i)) {
+							const region = new Region(
+								results[i].OBJECT_ID,
+								results[i].REGION_NAME,
+								results[i].RID,
+								results[i].Global_ID
+							);
+							regions.push(region)
+						}
 					}
-				}				
-				callback(regions);	
-				connection.release();// When done with the connection, release it.                    
-				if (error) throw error;// Handle error after the release.        	
-						
+					callback(regions);
+					connection.release();// When done with the connection, release it.                    
+					if (error) throw error;// Handle error after the release.  
+				} catch (error) {
+					console.log("error name: "+error.code);
+					console.log("error message: "+error.message);
+				}
 			});
 		})
+	};
+
+	fetchRegions = function () {
+		var regions = [];
+		dbConnection.getConnection(function (connection) {
+			connection.query('SELECT * FROM tbl_region', function (error, results, fields) {
+				try {					
+					for (var i in results) {
+						if (results.hasOwnProperty(i)) {
+							const region = new Region(
+								results[i].OBJECT_ID,
+								results[i].REGION_NAME,
+								results[i].RID,
+								results[i].Global_ID
+							);
+							regions.push(region)
+						}
+					}					
+					connection.release();// When done with the connection, release it.                    
+					if (error) throw error;// Handle error after the release.  
+				} catch (error) {
+					//console.log("error name: "+error.code);
+					//console.log("error message: "+error.message);
+					throw error;
+				}
+			});
+		})
+		return regions;
 	};
 }
 
