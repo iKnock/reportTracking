@@ -14,9 +14,10 @@ const pool = mysql.createPool({
 
 exports.getConnection = function (callback) {
     pool.getConnection(function (err, connection) {
-        if (err){//write this to log file with log level of error or sever
-            throw err;
-        }            
-        callback(connection);
+        if (err) {//write this to log file with log level of error or sever
+            callback(null, err);
+        } else {
+            callback(connection, null);
+        }
     });
 };
