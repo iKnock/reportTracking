@@ -48,23 +48,8 @@ function fetchWoredas(request, response) {
     })
 }
 
-function fetchKebeles(request, response) {
-    var kebele = new Kebele();
-    kebele.listAllKebele(function (kebele, error) {
-        if (error != null) {
-            console.error(error);
-            response.json(httpResponse.onKebeleNotFound)
-            console.log(response)
-        } else {            
-            response.json(kebele);
-            //console.log(response)
-        }
-    })
-}
-
 module.exports = {
     fetchRegions: fetchRegions,
     fetchZones: fetchZones,
-    fetchWoredas: fetchWoredas,
-    fetchKebeles: fetchKebeles
+    fetchWoredas: fetchWoredas
 };
