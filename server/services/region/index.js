@@ -7,6 +7,18 @@ module.exports = {
       success: false,
       message: 'Region Not Found'
     },
+    onZoneNotFound: {
+      success: false,
+      message: 'Zone Not Found'
+    },
+    onWoredaNotFound: {
+      success: false,
+      message: 'Woreda Not Found'
+    },
+    onKebeleNotFound: {
+      success: false,
+      message: 'Kebele Not Found'
+    },
     onServerAdminFail: {
       success: false,
       message: 'This area is for admin only'

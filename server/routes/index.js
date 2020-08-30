@@ -11,7 +11,7 @@ function init(server) {
   });
 
   server.get('/', function (req, res) {
-    res.redirect('/home');
+    res.redirect('/home');//may be put the documentation of the apis here 
   });
 
   server.use('/api', apiRoute);
