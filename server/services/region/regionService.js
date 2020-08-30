@@ -1,18 +1,31 @@
 "use strict";
 
+const express = require('express');
 const Region = require('../../models/region');
 const Zone = require('../../models/zone');
 const Woreda = require('../../models/woreda');
 const Kebele = require('../../models/kebele');
+const httpResponse = require('./index');
 
 var region = new Region();
-region.listAllRegions(function (regions, error) {
-    if (error != null) {
-        console.error(error);
-    } else {
-        console.log(regions);
-    }
-})
+
+function fetchRegions(request, response) {
+    region.listAllRegions(function (regions, error) {
+        if (error != null) {
+            console.error(error);
+            response.json(httpResponse.onRegionNotFound)
+            console.log(response)
+        } else {
+            //console.log(regions);
+            response.json(regions);
+            console.log(response)
+        }
+    })
+}
+
+module.exports = {
+    fetchRegions: fetchRegions
+};
 
 /**
 const zone = new Zone();

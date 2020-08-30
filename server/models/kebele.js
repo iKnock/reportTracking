@@ -1,4 +1,7 @@
+"use strict";
+
 const dbConnection = require('../utils/connection');
+const AppExceptions = require('../utils/appError');
 
 class Kebele {
     constructor(objectId, regionName, regionCode, zoneName, zoneCode, woredaName, woredaCode,
@@ -121,40 +124,51 @@ class Kebele {
     }
 
     listAllKebele = function (callback) {
-        dbConnection.getConnection(function (connection) {
-            connection.query('SELECT * FROM tbl_kebele', function (error, results, fields) {
-                var kebeles = [];
-                for (var i in results) {
-                    if (results.hasOwnProperty(i)) {
-                        const kebele = new Kebele(
-                            results[i].OBJECT_ID,
-                            results[i].R_NAME,
-                            results[i].R_CODE,
-                            results[i].Z_NAME,
-                            results[i].Z_CODE,
-                            results[i].W_NAME,
-                            results[i].W_CODE,
-                            results[i].RK_NAME,
-                            results[i].RK_CODE,
-                            results[i].COUNT,
-                            results[i].T_NAME,
-                            results[i].T_CODE,
-                            results[i].KK_CODE,
-                            results[i].UK_NAME,
-                            results[i].UK_CODE,
-                            results[i].UK_ID,
-                            results[i].KK_NAME,
-                            results[i].Global_ID
-                        );
-                        kebeles.push(kebele)
+        dbConnection.getConnection(function (connection, conError) {
+            if (conError != null) {
+                const conErr = new AppExceptions(conError.code, conError.message);
+                callback(null, conErr);
+            } else {
+                connection.query('SELECT * FROM tbl_kebele', function (error, results, fields) {
+                    try {
+                        var kebeles = [];
+                        for (var i in results) {
+                            if (results.hasOwnProperty(i)) {
+                                const kebele = new Kebele(
+                                    results[i].OBJECT_ID,
+                                    results[i].R_NAME,
+                                    results[i].R_CODE,
+                                    results[i].Z_NAME,
+                                    results[i].Z_CODE,
+                                    results[i].W_NAME,
+                                    results[i].W_CODE,
+                                    results[i].RK_NAME,
+                                    results[i].RK_CODE,
+                                    results[i].COUNT,
+                                    results[i].T_NAME,
+                                    results[i].T_CODE,
+                                    results[i].KK_CODE,
+                                    results[i].UK_NAME,
+                                    results[i].UK_CODE,
+                                    results[i].UK_ID,
+                                    results[i].KK_NAME,
+                                    results[i].Global_ID
+                                );
+                                kebeles.push(kebele)
+                            }
+                        }
+                        callback(kebeles);
+                        connection.release();// When done with the connection, release it.                    
+                        if (error) throw error;// Handle error after the release.        				
+                    } catch (error) {
+                        //write in the log the original exception and return readable format to the caller
+                        const err = new AppExceptions(error.code, error.message);
+                        callback(null, err);
                     }
-                }
-                callback(kebeles);
-                connection.release();// When done with the connection, release it.                    
-                if (error) throw error;// Handle error after the release.        				
-            });
-        })
-    };
+                });
+            }
+        });
+    };    
 }
 
 module.exports = Kebele;
