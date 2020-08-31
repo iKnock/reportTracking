@@ -16,12 +16,22 @@ GROUP BY
 HAVING
     COUNT(*) > 1 ) cc
 
-/** return `
-		   ReportId: ${this.reportId}
-		   ReportTitle: ${this.reportTitle}
-		   ReportDesc: ${this.reportDesc}
-		   HappenOnDate: ${this.happenOnDate}
-		   ReportedOnDate: ${this.reportedOnDate}
-		   Category: ${this.reportCategory}
-		   Remark: ${this.remark}
-		 `; */
+
+//To import csv files into mysql 
+
+LOAD DATA INFILE 'C:/wamp64/tmp/Ethiopia_Atlas_AgeU9.csv'
+INTO TABLE db_reporting_app.tbl_atlas
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+//if you got The MySQL server is running with the --secure-file-priv option so it cannot execute this statement
+when you execute the above script do the following 
+
+//execute the following in mysql and 
+SHOW VARIABLES LIKE "secure_file_priv"; 
+
+and 
+
+Move your file to the directory specified by secure-file-priv.
