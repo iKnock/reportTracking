@@ -67,7 +67,7 @@ class User {
             if (conError != null) {
                 const conErr = new AppExceptions(conError.code, conError.message);
                 callback(null, conErr);
-            } else {                
+            } else {
                 connection.query('INSERT INTO `tbl_user`(`user_name`, `password`, `salt`, `email`, `verified`, `status`, `remark`) VALUES (?,?,?,?,?,?,?)', [userId, userName, password, salt, email, verified, status, remark], function (error, results, fields) {
                     try {
                         console.log('result= ' + results)
@@ -92,7 +92,7 @@ class User {
                 const conErr = new AppExceptions(conError.code, conError.message);
                 callback(null, conErr);
             } else {
-                connection.query('SELECT * FROM `tbl_user` where user_name = ? and password = ?', [userName, password], function (error, results, fields) {
+                connection.query('SELECT * FROM `tbl_user` WHERE `user_name` = ? and `password`= ?', [userName, password], function (error, results, fields) {
                     try {
                         var users = [];
                         for (var i in results) {
@@ -115,6 +115,7 @@ class User {
                         if (error) throw error;// Handle error after the release.  
                     } catch (error) {
                         //write in the log the original exception and return readable format to the caller
+                        console.error('error---->' + error)
                         const err = new AppExceptions(error.code, error.message);
                         callback(null, err);
                     }
