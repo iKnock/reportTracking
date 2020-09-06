@@ -3,7 +3,26 @@ const speakeasy = require('speakeasy');
 const commons = require('./commons');
 const router = express.Router();
 
-router.post('/login', (req, res) => {
+const httpResponse = require('./index');
+const User = require('../../models/iam/user');
+
+function logIn(request, response) {
+    var user = new User();
+    const userName = request.params.userName;  
+    const password = request.params.password;
+
+    user.logInUser(function (userName, password, error) {
+        if (error != null) {
+            console.error(error);
+            console.log(response)
+        } else {            
+            response.json(user);
+            //console.log(response)
+        }
+    })
+}
+
+/**router.post('/login', (req, res) => {
     console.log(`DEBUG: Received login request`);
 
     if (commons.userObject.uname && commons.userObject.upass) {
@@ -69,5 +88,5 @@ router.post('/login', (req, res) => {
         "message": "Please register to login"
     });
 });
-
+*/
 module.exports = router;
