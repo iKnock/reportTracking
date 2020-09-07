@@ -48,7 +48,7 @@ class SecondStepAuth {
                 const conErr = new AppExceptions(conError.code, conError.message);
                 callback(null, conErr);
             } else {
-                connection.query('INSERT INTO `tbl_second_step_auth`(`user_id`, `secret`, `temp_secret`, `data_url`, `tfa_url`, `status`) values (?,?,?,?,?,?)', [secondStepInfo.userId, secondStepInfo.secret, secondStepInfo.tempSecret, secondStepInfo.dataUrl, secondStepInfo.tfaUrl, secondStepInfo.status], function (error, results, fields) {
+                connection.query('INSERT INTO `tbl_second_step_auth`(`user_id`, `secret`, `temp_secret`, `data_url`, `tfa_url`, `status`) values (?,?,?,?,?,?)', [secondStepInfo.userId, secondStepInfo.secret, secondStepInfo.tempSecret, secondStepInfo.dataUrl, secondStepInfo.tfaURL, secondStepInfo.status], function (error, results, fields) {
                     try {
                         console.log('result= ' + results)
 

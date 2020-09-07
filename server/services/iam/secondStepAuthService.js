@@ -35,10 +35,11 @@ function enrollOtp(request, response) {
                     tfaURL: url,
                     status: 'active'
                 };
+                console.log('secondStepInfoObj ===> ' + JSON.stringify(secondStepInfo))
                 var secondStep = new SecondStepAuth();
                 secondStep.insertSecondStep(secondStepInfo, function (result, error) {
                     console.log('tfa information is inserted to db with result info ===> ' + result)
-                    console.log('error during inserting to db ===> ' + error)
+                    console.error('error during inserting to db ===> ' + JSON.stringify(error))
                 })
                 return response.json({
                     message: 'TFA Auth needs to be verified',
