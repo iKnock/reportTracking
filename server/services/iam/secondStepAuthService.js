@@ -1,19 +1,19 @@
-const express = require('express');
+
 const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
-const commons = require('./commons');
-const router = express.Router();
 
+const httpResponse = require('./index');
 const User = require('../../models/iam/user');
+const SecondStepAuth = require('../../models/iam/secondStepAuth');
 
 function enrollOtp(request, response) {
     console.log(`DEBUG: Received TFA setup request`);
 
     var user = new User();
 
-    user.logInUser(userName, password, function (user, error) {
+    user.logInUser("iknock", "password", function (user, error) {
         if (error != null) {
-            console.error(error);            
+            console.error(error);
         } else {
             const secret = speakeasy.generateSecret({
                 length: 10,
@@ -27,13 +27,20 @@ function enrollOtp(request, response) {
                 encoding: 'base32'
             });
             QRCode.toDataURL(url, (err, dataURL) => {
-                commons.userObject.tfa = {
+                secondStepInfo = {
+                    userId: user.getUserId(),
                     secret: '',
                     tempSecret: secret.base32,
-                    dataURL,
-                    tfaURL: url
+                    dataUrl: dataURL,
+                    tfaURL: url,
+                    status: 'active'
                 };
-                return res.json({
+                var secondStep = new SecondStepAuth();
+                secondStep.insertSecondStep(secondStepInfo, function (result, error) {
+                    console.log('tfa information is inserted to db with result info ===> ' + result)
+                    console.log('error during inserting to db ===> ' + error)
+                })
+                return response.json({
                     message: 'TFA Auth needs to be verified',
                     tempSecret: secret.base32,
                     dataURL,
@@ -44,36 +51,12 @@ function enrollOtp(request, response) {
     })
 }
 
-router.post('/tfa/setup', (req, res) => {
-    console.log(`DEBUG: Received TFA setup request`);
+module.exports = {
+    enrollOtp: enrollOtp
+};
 
-    const secret = speakeasy.generateSecret({
-        length: 10,
-        name: commons.userObject.uname,
-        issuer: 'NarenAuth v0.0'
-    });
-    var url = speakeasy.otpauthURL({
-        secret: secret.base32,
-        label: commons.userObject.uname,
-        issuer: 'NarenAuth v0.0',
-        encoding: 'base32'
-    });
-    QRCode.toDataURL(url, (err, dataURL) => {
-        commons.userObject.tfa = {
-            secret: '',
-            tempSecret: secret.base32,
-            dataURL,
-            tfaURL: url
-        };
-        return res.json({
-            message: 'TFA Auth needs to be verified',
-            tempSecret: secret.base32,
-            dataURL,
-            tfaURL: secret.otpauth_url
-        });
-    });
-});
 
+/**
 router.get('/tfa/setup', (req, res) => {
     console.log(`DEBUG: Received FETCH TFA request`);
 
@@ -115,6 +98,4 @@ router.post('/tfa/verify', (req, res) => {
         "status": 403,
         "message": "Invalid Auth Code, verification failed. Please verify the system Date and Time"
     });
-});
-
-module.exports = router;
+});**/

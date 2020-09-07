@@ -7,6 +7,7 @@ const kebeleController = require('../../controller/api/kebeleController');
 const atlasController = require('../../controller/api/atlasController');
 
 const userController = require('../../controller/api/iam/loginController');
+const secondStepController = require('../../controller/api/iam/secondStepAuthController');
 
 const express = require('express');
 
@@ -19,5 +20,7 @@ router.use('/kebele', kebeleController);
 router.use('/atlas', atlasController);
 
 router.use('/user', userController);
+
+router.use('/user',secondStepController)
 
 module.exports = router;

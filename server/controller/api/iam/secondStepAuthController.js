@@ -6,6 +6,6 @@ const secondStepService = require('../../../services/iam/secondStepAuthService')
 
 let router = express.Router();
 
-router.get('/tfa/setup', secondStepService.logIn);
+router.post('/tfa/enroll', secondStepService.enrollOtp);
 
 module.exports = router;
