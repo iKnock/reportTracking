@@ -94,10 +94,10 @@ class User {
             } else {
                 connection.query('SELECT * FROM `tbl_user` WHERE `user_name` = ? and `password`= ?', [userName, password], function (error, results, fields) {
                     try {
-                        var users = [];
+                        var user;
                         for (var i in results) {
                             if (results.hasOwnProperty(i)) {
-                                const user = new User(
+                                user = new User(
                                     results[i].user_id,
                                     results[i].user_name,
                                     results[i].password,
@@ -107,10 +107,9 @@ class User {
                                     results[i].status,
                                     results[i].remark
                                 );
-                                users.push(user)
                             }
                         }
-                        callback(users);
+                        callback(user);
                         connection.release();// When done with the connection, release it.                    
                         if (error) throw error;// Handle error after the release.  
                     } catch (error) {

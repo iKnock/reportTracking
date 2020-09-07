@@ -4,6 +4,46 @@ const QRCode = require('qrcode');
 const commons = require('./commons');
 const router = express.Router();
 
+const User = require('../../models/iam/user');
+
+function enrollOtp(request, response) {
+    console.log(`DEBUG: Received TFA setup request`);
+
+    var user = new User();
+
+    user.logInUser(userName, password, function (user, error) {
+        if (error != null) {
+            console.error(error);            
+        } else {
+            const secret = speakeasy.generateSecret({
+                length: 10,
+                name: user.getUserName(),
+                issuer: 'NarenAuth v0.0'
+            });
+            var url = speakeasy.otpauthURL({
+                secret: secret.base32,
+                label: user.getUserName(),
+                issuer: 'NarenAuth v0.0',
+                encoding: 'base32'
+            });
+            QRCode.toDataURL(url, (err, dataURL) => {
+                commons.userObject.tfa = {
+                    secret: '',
+                    tempSecret: secret.base32,
+                    dataURL,
+                    tfaURL: url
+                };
+                return res.json({
+                    message: 'TFA Auth needs to be verified',
+                    tempSecret: secret.base32,
+                    dataURL,
+                    tfaURL: secret.otpauth_url
+                });
+            });
+        }
+    })
+}
+
 router.post('/tfa/setup', (req, res) => {
     console.log(`DEBUG: Received TFA setup request`);
 

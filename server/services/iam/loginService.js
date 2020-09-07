@@ -6,7 +6,7 @@ const router = express.Router();**/
 const httpResponse = require('./index');
 const User = require('../../models/iam/user');
 
-function logIn(request, response) {
+function fetchUser(request, response) {
     var user = new User();
     const userName = request.params.userName;
     const password = request.params.password;
@@ -20,6 +20,68 @@ function logIn(request, response) {
             //console.log(response)
         }
     })
+}
+
+function logIn(request, response) {
+    var userObj = new User();
+    const userName = request.params.userName;
+    const password = request.params.password;
+
+    userObj.logInUser(userName, password, function (user, error) {
+        if (error != null) {
+            console.error(error);
+            console.log(response)
+        } else {
+            if (userName == user.getUserName() && password == user.getPassword()) {
+                console.log(`DEBUG: Login without TFA is successful`);
+                return response.send({
+                    "status": 200,
+                    "message": "success"
+                });
+
+                verifyOtp(request, response, user);
+
+            } else {
+                console.log(`ERROR: Login without TFA is not successful`);
+                return response.send({
+                    "status": 403,
+                    "message": "Invalid username or password"
+                });
+            }
+        }
+    })
+}
+
+function verifyOtp(request, response, user) {
+    if (!request.headers['x-tfa']) {
+        console.log(`WARNING: Login was partial without TFA header`);
+
+        return response.send({
+            "status": 206,
+            "message": "Please enter the Auth Code"
+        });
+    }
+    let isVerified = speakeasy.totp.verify({
+        secret: user.getSalt(),
+        encoding: 'base32',
+        token: req.headers['x-tfa']
+    });
+
+    if (isVerified) {
+        console.log(`DEBUG: Login with TFA is verified to be successful`);
+
+        return res.send({
+            "status": 200,
+            "message": "success"
+        });
+    } else {
+        console.log(`ERROR: Invalid AUTH code`);
+
+        return res.send({
+            "status": 206,
+            "message": "Invalid Auth Code"
+        });
+    }
 }
 
 module.exports = {
