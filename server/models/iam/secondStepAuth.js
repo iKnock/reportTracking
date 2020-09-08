@@ -10,8 +10,8 @@ class SecondStepAuth {
         this.secret = secret;
         this.tempSecret = tempSecret;
         this.dataUrl = dataUrl;
-        this.tfaUrl = tfaUrl;        
-        this.status = status;        
+        this.tfaUrl = tfaUrl;
+        this.status = status;
     }
 
     getSecondStepId() {
@@ -36,7 +36,7 @@ class SecondStepAuth {
 
     getTfaUrl() {
         return this.tfaUrl;
-    }   
+    }
 
     getStatus() {
         return this.status;
@@ -57,6 +57,43 @@ class SecondStepAuth {
                         if (error) throw error;// Handle error after the release.  
                     } catch (error) {
                         //write in the log the original exception and return readable format to the caller
+                        const err = new AppExceptions(error.code, error.message);
+                        callback(null, err);
+                    }
+
+                });
+            }
+        })
+    };
+
+    featchSecondStepInfo = function (userName, callback) {
+        dbConnection.getConnection(function (connection, conError) {
+            if (conError != null) {
+                const conErr = new AppExceptions(conError.code, conError.message);
+                callback(null, conErr);
+            } else {
+                connection.query('SELECT * FROM `tbl_second_step_auth` sec inner join `tbl_user` ur on ur.user_id=sec.user_id WHERE ur.user_name = ?', [userName], function (error, results, fields) {
+                    try {
+                        var secondStepInfo;
+                        for (var i in results) {
+                            if (results.hasOwnProperty(i)) {
+                                secondStepInfo = new SecondStepAuth(
+                                    results[i].second_step_id,
+                                    results[i].user_id,
+                                    results[i].secret,
+                                    results[i].temp_secret,
+                                    results[i].data_url,
+                                    results[i].tfa_url,
+                                    results[i].status
+                                );
+                            }
+                        }
+                        callback(secondStepInfo, null);
+                        connection.release();// When done with the connection, release it.                    
+                        if (error) throw error;// Handle error after the release.  
+                    } catch (error) {
+                        //write in the log the original exception and return readable format to the caller
+                        console.error('error---->' + error)
                         const err = new AppExceptions(error.code, error.message);
                         callback(null, err);
                     }

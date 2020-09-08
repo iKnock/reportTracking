@@ -1,1 +1,1 @@
-POST http://localhost:3000/api/v1/user/tfa/enroll
+GET http://localhost:3000/api/v1/user/tfa/enroll/iknock

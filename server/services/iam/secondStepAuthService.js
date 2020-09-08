@@ -52,8 +52,27 @@ function enrollOtp(request, response) {
     })
 }
 
+function fetchEnrollInfo(request, response) {
+    console.log(`DEBUG: Received FETCH TFA request`);
+    var secondStep = new SecondStepAuth();    
+
+    secondStep.featchSecondStepInfo(request.params.userName, function (secondStepInfo, error) {
+        if (error != null) {
+            console.error(error);
+            response.json({
+                success: 'error',
+                message: 'query return error'
+            })
+        } else {
+            //check size and if zero return nothing found            
+            response.json(secondStepInfo);
+        }
+    })
+}
+
 module.exports = {
-    enrollOtp: enrollOtp
+    enrollOtp: enrollOtp,
+    fetchEnrollInfo: fetchEnrollInfo
 };
 
 
