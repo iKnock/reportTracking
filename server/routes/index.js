@@ -1,7 +1,7 @@
 'use strict';
 
 const apiRoute = require('./apis');
-//const homeRoute = require('./home');
+const homeRoute = require('./home');
 // const errorRoute = require('./error');
 
 function init(server) {
@@ -10,12 +10,13 @@ function init(server) {
     return next();
   });
 
-  server.get('/', function (req, res) {
-    res.redirect('/home');//may be put the documentation of the apis here 
+  server.get('/', function (req, res) {    
+    //res.redirect('../../client');
+    res.redirect('/documentation');
   });
 
   server.use('/api', apiRoute);
-  //server.use('/home', homeRoute);
+  server.use('/documentation', homeRoute);
   // server.use('/error', errorRoute);
 }
 

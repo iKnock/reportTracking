@@ -23,7 +23,7 @@ module.exports = function() {
       server.set('env', config.env);
       server.set('port', config.port);
       server.set('hostname', config.hostname);
-      server.set('viewDir', config.viewDir);
+      server.set('viewDir', config.viewDir);      
   
       // Returns middleware that parses json
       server.use(cors());
@@ -39,9 +39,10 @@ module.exports = function() {
 
     //  require('../configs/passport')(passport);
   
-      server.use('/uploads', express.static('uploads'));
-  
-      server.set('views', server.get('viewDir'));
+      //server.use('/uploads', express.static('uploads'));
+      //server.set('views', server.get('viewDir'));
+      
+      server.use(express.static(path.join(__dirname, '../client')));
   
       // Set up routes
       routes.init(server);
