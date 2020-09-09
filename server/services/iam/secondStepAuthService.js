@@ -63,15 +63,19 @@ function fetchEnrollInfo(request, response) {
     var secondStep = new SecondStepAuth();
 
     secondStep.featchSecondStepInfo(request.params.userName, function (secondStepInfo, error) {
-        if (error != null) {
+        if (secondStepInfo != null) {
+            response.json({
+                success: 'success',
+                error_code: error.errorCode,
+                response_data: secondStepInfo
+            })
+        } else {
             console.error(error);
             response.json({
                 success: 'error',
-                message: 'query return error'
+                error_code: error.errorCode,
+                message: error.message
             })
-        } else {
-            //check size and if zero return nothing found            
-            response.json(secondStepInfo);
         }
     })
 }
@@ -85,20 +89,69 @@ function deleteEnrollmentInfo(request, response) {
             console.error(error);
             response.json({
                 success: 'error',
-                errorCode: error.errorCode,
+                error_code: error.errorCode,
                 message: error.message
             })
         } else {
             console.log('secondStepInfo: ' + secondStepInfo);
-            if (secondStepInfo != null) {
-                response.send({
-                    "status": 200,
-                    "message": "success"
-                });
-            } else {
+            response.send({
+                "status": 200,
+                "message": "success"
+            });
+        }
+    })
+}
 
+function verifyEnrollmentInfo(request, response) {
+
+    console.log(`DEBUG: Received TFA Verify request`);
+
+    var secondStep = new SecondStepAuth();
+
+    secondStep.featchSecondStepInfo(request.params.userName, function (secondStepInfo, error) {
+        console.log("secondStepInfo: " + request.params.userName)
+        if (error != null) {
+            response.json({
+                success: 'error',
+                error_code: error.errorCode,
+                message: error.message
+            })
+        } else {
+
+            console.log("tempSecret: " + secondStepInfo.getTempSecret())
+
+            let isVerified = speakeasy.totp.verify({
+                secret: secondStepInfo.getTempSecret(),
+                encoding: 'base32',
+                token: request.body.token
+            });
+
+            if (isVerified) {
+                console.log(`DEBUG: TFA is verified to be enabled`);
+
+                //update the second step auth table
+                secondStep.updateSecondStepInfo(secondStepInfo.getTempSecret(), request.params.userName, function (updated, error) {
+                    if (error != null) {
+                        return response.json({
+                            status: 401,
+                            error_code: error.errorCode,
+                            message: error.message
+                        });
+                    } else {
+                        return response.json({
+                            status: 200,
+                            message: "Two-factor Auth is enabled successfully"
+                        });
+                    }
+                })
             }
 
+            console.log(`ERROR: TFA is verified to be wrong`);
+
+            return response.send({
+                "status": 403,
+                "message": "Invalid Auth Code, verification failed. Please verify the system Date and Time"
+            });
         }
     })
 }
@@ -106,50 +159,6 @@ function deleteEnrollmentInfo(request, response) {
 module.exports = {
     enrollOtp: enrollOtp,
     fetchEnrollInfo: fetchEnrollInfo,
-    deleteEnrollmentInfo: deleteEnrollmentInfo
+    deleteEnrollmentInfo: deleteEnrollmentInfo,
+    verifyEnrollmentInfo: verifyEnrollmentInfo
 };
-
-
-/**
-router.get('/tfa/setup', (req, res) => {
-    console.log(`DEBUG: Received FETCH TFA request`);
-
-    res.json(commons.userObject.tfa ? commons.userObject.tfa : null);
-});
-
-router.delete('/tfa/setup', (req, res) => {
-    console.log(`DEBUG: Received DELETE TFA request`);
-
-    delete commons.userObject.tfa;
-    res.send({
-        "status": 200,
-        "message": "success"
-    });
-});
-
-router.post('/tfa/verify', (req, res) => {
-    console.log(`DEBUG: Received TFA Verify request`);
-
-    let isVerified = speakeasy.totp.verify({
-        secret: commons.userObject.tfa.tempSecret,
-        encoding: 'base32',
-        token: req.body.token
-    });
-
-    if (isVerified) {
-        console.log(`DEBUG: TFA is verified to be enabled`);
-
-        commons.userObject.tfa.secret = commons.userObject.tfa.tempSecret;
-        return res.send({
-            "status": 200,
-            "message": "Two-factor Auth is enabled successfully"
-        });
-    }
-
-    console.log(`ERROR: TFA is verified to be wrong`);
-
-    return res.send({
-        "status": 403,
-        "message": "Invalid Auth Code, verification failed. Please verify the system Date and Time"
-    });
-});**/

@@ -72,7 +72,7 @@ class SecondStepAuth {
                 const conErr = new AppExceptions(conError.code, conError.message);
                 callback(null, conErr);
             } else {
-                connection.query('SELECT * FROM `tbl_second_step_auth` sec inner join `tbl_user` ur on ur.user_id=sec.user_id WHERE ur.user_name = ?', [userName], function (error, results, fields) {
+                connection.query('SELECT * FROM `tbl_second_step_auth` WHERE `user_id` = ?', [userName], function (error, results, fields) {
                     try {
                         var secondStepInfo;
                         for (var i in results) {
@@ -88,7 +88,30 @@ class SecondStepAuth {
                                 );
                             }
                         }
+                        //console.log("query result: " + JSON.stringify(secondStepInfo))
                         callback(secondStepInfo, null);
+                        connection.release();// When done with the connection, release it.                    
+                        if (error) throw error;// Handle error after the release.  
+                    } catch (error) {
+                        //write in the log the original exception and return readable format to the caller
+                        console.error('error---->' + error)
+                        const err = new AppExceptions(error.code, error.message);
+                        callback(null, err);
+                    }
+                });
+            }
+        })
+    };
+
+    deleteSecondStepInfo = function (userName, callback) {
+        dbConnection.getConnection(function (connection, conError) {
+            if (conError != null) {
+                const conErr = new AppExceptions(conError.code, conError.message);
+                callback(null, conErr);
+            } else {
+                connection.query('DELETE FROM `tbl_second_step_auth` WHERE user_id = ?', [userName], function (error, results, fields) {
+                    try {
+                        callback(results, null);
                         connection.release();// When done with the connection, release it.                    
                         if (error) throw error;// Handle error after the release.  
                     } catch (error) {
@@ -103,13 +126,13 @@ class SecondStepAuth {
         })
     };
 
-    deleteSecondStepInfo = function (userName, callback) {
+    updateSecondStepInfo = function (secret, userName, callback) {
         dbConnection.getConnection(function (connection, conError) {
             if (conError != null) {
                 const conErr = new AppExceptions(conError.code, conError.message);
                 callback(null, conErr);
             } else {
-                connection.query('DELETE FROM `tbl_second_step_auth` WHERE user_id = ?', [userName], function (error, results, fields) {
+                connection.query('UPDATE `tbl_second_step_auth` SET `secret` = ? WHERE `user_id` = ?', [secret, userName], function (error, results, fields) {
                     try {
                         callback(results, null);
                         connection.release();// When done with the connection, release it.                    
