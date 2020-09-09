@@ -1,1 +1,1 @@
-GET http://localhost:3000/api/v1/user/tfa/enroll/iknock
+DELETE http://localhost:3000/api/v1/user/tfa/logout/iknock

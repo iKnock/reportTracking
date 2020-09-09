@@ -52,7 +52,7 @@ class SecondStepAuth {
                     try {
                         console.log('result= ' + results)
 
-                        callback(results);
+                        callback(results, null);
                         connection.release();// When done with the connection, release it.                    
                         if (error) throw error;// Handle error after the release.  
                     } catch (error) {
@@ -89,6 +89,29 @@ class SecondStepAuth {
                             }
                         }
                         callback(secondStepInfo, null);
+                        connection.release();// When done with the connection, release it.                    
+                        if (error) throw error;// Handle error after the release.  
+                    } catch (error) {
+                        //write in the log the original exception and return readable format to the caller
+                        console.error('error---->' + error)
+                        const err = new AppExceptions(error.code, error.message);
+                        callback(null, err);
+                    }
+
+                });
+            }
+        })
+    };
+
+    deleteSecondStepInfo = function (userName, callback) {
+        dbConnection.getConnection(function (connection, conError) {
+            if (conError != null) {
+                const conErr = new AppExceptions(conError.code, conError.message);
+                callback(null, conErr);
+            } else {
+                connection.query('DELETE FROM `tbl_second_step_auth` WHERE user_id = ?', [userName], function (error, results, fields) {
+                    try {
+                        callback(results, null);
                         connection.release();// When done with the connection, release it.                    
                         if (error) throw error;// Handle error after the release.  
                     } catch (error) {

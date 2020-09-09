@@ -28,7 +28,7 @@ function enrollOtp(request, response) {
             });
             QRCode.toDataURL(url, (err, dataURL) => {
                 secondStepInfo = {
-                    userId: user.getUserId(),
+                    userId: user.getUserName(),
                     secret: '',
                     tempSecret: secret.base32,
                     dataUrl: dataURL,
@@ -38,15 +38,21 @@ function enrollOtp(request, response) {
                 console.log('secondStepInfoObj ===> ' + JSON.stringify(secondStepInfo))
                 var secondStep = new SecondStepAuth();
                 secondStep.insertSecondStep(secondStepInfo, function (result, error) {
-                    console.log('tfa information is inserted to db with result info ===> ' + result)
-                    console.error('error during inserting to db ===> ' + JSON.stringify(error))
+                    if (result != null) {
+                        return response.json({
+                            message: 'TFA Auth needs to be verified',
+                            tempSecret: secret.base32,
+                            dataURL,
+                            tfaURL: secret.otpauth_url
+                        });
+                    } else {
+                        response.json({
+                            success: 'error',
+                            message: 'query return error'
+                        })
+                    }
                 })
-                return response.json({
-                    message: 'TFA Auth needs to be verified',
-                    tempSecret: secret.base32,
-                    dataURL,
-                    tfaURL: secret.otpauth_url
-                });
+
             });
         }
     })
@@ -54,7 +60,7 @@ function enrollOtp(request, response) {
 
 function fetchEnrollInfo(request, response) {
     console.log(`DEBUG: Received FETCH TFA request`);
-    var secondStep = new SecondStepAuth();    
+    var secondStep = new SecondStepAuth();
 
     secondStep.featchSecondStepInfo(request.params.userName, function (secondStepInfo, error) {
         if (error != null) {
@@ -70,9 +76,37 @@ function fetchEnrollInfo(request, response) {
     })
 }
 
+function deleteEnrollmentInfo(request, response) {
+    console.log(`DEBUG: Received DELETE TFA request`);
+    var secondStep = new SecondStepAuth();
+
+    secondStep.deleteSecondStepInfo(request.params.userName, function (secondStepInfo, error) {
+        if (error != null) {
+            console.error(error);
+            response.json({
+                success: 'error',
+                errorCode: error.errorCode,
+                message: error.message
+            })
+        } else {
+            console.log('secondStepInfo: ' + secondStepInfo);
+            if (secondStepInfo != null) {
+                response.send({
+                    "status": 200,
+                    "message": "success"
+                });
+            } else {
+
+            }
+
+        }
+    })
+}
+
 module.exports = {
     enrollOtp: enrollOtp,
-    fetchEnrollInfo: fetchEnrollInfo
+    fetchEnrollInfo: fetchEnrollInfo,
+    deleteEnrollmentInfo: deleteEnrollmentInfo
 };
 
 
