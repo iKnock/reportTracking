@@ -3,8 +3,7 @@
 angular.module('myApp', [
     'angularFileUpload',
     'ui.sortable',
-    'toaster',
-    'PhoneGap',
+    'toaster',    
     'leaflet-directive',
     //'uiGmapgoogle-maps',
     //'ngGeolocation',
