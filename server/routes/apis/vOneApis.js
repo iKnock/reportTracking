@@ -14,7 +14,6 @@ const express = require('express');
 
 let router = express.Router();
 
-
 router.use('/region', regionController);
 router.use('/zone', zoneController);
 router.use('/woreda', woredaController);
@@ -23,7 +22,6 @@ router.use('/atlas', atlasController);
 
 router.use('/user', userController);
 router.use('/user', secondStepController);
-
 router.use('/user', verifyController);
 
 module.exports = router;
