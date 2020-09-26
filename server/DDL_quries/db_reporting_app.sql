@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 26, 2020 at 04:13 PM
+-- Generation Time: Sep 26, 2020 at 05:24 PM
 -- Server version: 5.7.19
 -- PHP Version: 5.6.31
 
@@ -16868,21 +16868,16 @@ CREATE TABLE IF NOT EXISTS `tbl_role` (
 DROP TABLE IF EXISTS `tbl_second_step_auth`;
 CREATE TABLE IF NOT EXISTS `tbl_second_step_auth` (
   `second_step_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(30) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `secret` varchar(50) NOT NULL,
   `temp_secret` varchar(50) NOT NULL,
   `data_url` varchar(10000) NOT NULL,
   `tfa_url` varchar(1000) NOT NULL,
+  `second_step_auth_type` varchar(30) NOT NULL,
   `status` varchar(50) NOT NULL,
-  PRIMARY KEY (`second_step_id`)
+  PRIMARY KEY (`second_step_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_second_step_auth`
---
-
-INSERT INTO `tbl_second_step_auth` (`second_step_id`, `user_id`, `secret`, `temp_secret`, `data_url`, `tfa_url`, `status`) VALUES
-(5, 'iknock', '', 'HBWXQ33TOR3TYO3R', 'data:image/png;base64,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', 'otpauth://totp/iknock?secret=HBWXQ33TOR3TYO3R&issuer=NarenAuth%20v0.0', 'active');
 
 -- --------------------------------------------------------
 
@@ -17826,19 +17821,25 @@ ALTER TABLE `tbl_media`
 -- Constraints for table `tbl_perpetrator`
 --
 ALTER TABLE `tbl_perpetrator`
-  ADD CONSTRAINT `user_report_perp_const` FOREIGN KEY (`user_report_id`) REFERENCES `tbl_user_role` (`user_role_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_rep_perp_const` FOREIGN KEY (`user_report_id`) REFERENCES `tbl_user_report` (`user_report_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_property_damage`
 --
 ALTER TABLE `tbl_property_damage`
-  ADD CONSTRAINT `user_rep_prop_dam_const` FOREIGN KEY (`user_report_id`) REFERENCES `tbl_user_role` (`user_role_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_prop_damg_const` FOREIGN KEY (`user_report_id`) REFERENCES `tbl_user_report` (`user_report_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_resource_role`
 --
 ALTER TABLE `tbl_resource_role`
   ADD CONSTRAINT `resource_user_role_constraint` FOREIGN KEY (`user_role_id`) REFERENCES `tbl_user_role` (`user_role_id`);
+
+--
+-- Constraints for table `tbl_second_step_auth`
+--
+ALTER TABLE `tbl_second_step_auth`
+  ADD CONSTRAINT `user_second_step_foreign_key` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_token`
