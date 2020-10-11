@@ -1,68 +1,70 @@
+<!DOCTYPE html>
 <html lang="en" ng-app="myApp">
+
 <head>
+
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <!-- build:css css/addisEssentials.min.css -->
-    <link href="css/font-style.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!--<link rel="stylesheet" href="lib/font-awesome.min.css">-->
-    <link href="css/bootstrap-theme.css" rel="stylesheet">
-    <link href="css/leaflet.css" rel="stylesheet">
-    
-    <link href="css/grid-listview.css" rel="stylesheet">
-    <link href="css/grid-cust-style.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <title>Incident Reporting System</title>
 
-    <link href="css/leaflet.awesome-markers.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="css/toaster.css" rel="stylesheet">
-    <!-- endbuild -->
+    <!-- Custom styles for this template -->
+    <link href="css/full-width-pics.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
-    <!-- build:js js/addisEssentials.min.js -->
-    <script src="lib/jquery.js"></script>
-    <script src="lib/bootstrap.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <script src="lib/leaflet.js"></script>
-    <script src="lib/angular-file-upload-shim.min.js"></script>
-    <script src="lib/angular.js"></script>
-    <script src="lib/angular-file-upload.min.js"></script>
-    <script src="lib/angular-leaflet-directive.min.js"></script>
+    <!-- Angularjs JavaScript version 1.8.0 -->
+    <script src="vendor/angularjs/angular.min.js"></script>
+    <script src="vendor/angularjs/angular-route.min.js"></script>
+    <script src="vendor/angularjs/angular-resource.min.js"></script>
 
-    <script src="lib/jquery-ui.min.js"></script>
-    <script src="lib/sortable.js"></script>
-
-    <script src="lib/lodash.compat.js"></script>
-
-    <script src="lib/leaflet.awesome-markers.min.js"></script>
-    <!--<script src="lib/angular-google-maps.js"></script>-->
-
-    <!--<script src="lib/angularjs-geolocation.min.js"></script>-->
-
-    <!--<script src="lib/angular-google-staticmaps.min.js"></script>-->
-
-    <script src="lib/angular-facebook.js"></script>
-
-    <script src="lib/angular-touch.js"></script>
-    <script src="lib/angular-resource.js"></script>
-    <script src="lib/angular-animate.js"></script>
-    <script src="lib/angular-route.js"></script>
-    <script src="lib/toaster.js"></script>
-    <script src="lib/ui-bootstrap-0.11.0.js"></script>
-    <script src="lib/ui-bootstrap-tpls-0.11.0.js"></script>
-
-    <!--<script src="js/addis-essentials-api.templates.js"></script>-->
+    <!-- application files -->
     <script src="js/app.js"></script>
-    <!--<script src="js/geolocation-service.js"></script>-->
     <script src="js/controllers.js"></script>
     <script src="js/rest-services.js"></script>
-    <!-- endbuild -->
+
 </head>
 
 <body ng-controller="MainCtrl">
-<toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
-<div ng-view ng-class="container-fluid">
-</div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Incident Reporting</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" ng-click="go('/home')">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-click="go('/reports')">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-click="go('/about')">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-click="go('/login')">Log In</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>    
 
+    <div ng-view ng-class="container-fluid">
+    </div>
 </body>
+
 </html>
