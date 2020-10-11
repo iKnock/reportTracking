@@ -15,6 +15,10 @@ angular.module('myApp.controllers', [])
             };
         }])
 
+    .controller('HomeController', ['$scope', '$rootScope', '$routeParams', 'dataFactory',
+        function ($scope, $rootScope, $routeParams, dataFactory) {
+            console.log('home controller called')
+        }])
 
     .controller('LoginController', ['$scope', '$rootScope', '$http', '$location', '$routeParams', 'dataFactory', '$timeout',
         function ($scope, $rootScope, $http, $location, $routeParams, dataFactory, $timeout) {
@@ -23,12 +27,21 @@ angular.module('myApp.controllers', [])
 
     .controller('SignUpController', ['$scope', '$rootScope', '$routeParams', '$filter', 'dataFactory',
         function ($scope, $rootScope, $routeParams, $filter, dataFactory) {
-        }])
+            console.log('sign up controller called')
 
-    .controller('HomeCtrl', ['$scope', '$rootScope', '$routeParams', 'dataFactory',
-        function ($scope, $rootScope, $routeParams, dataFactory) {
-            //========================================
-            console.log('home controller called')
+            $scope.signUp = function () {
+                const userName = $scope.user.userName;
+                const password = $scope.user.password;
+                const email = $scope.user.email;
+                const secondAuthEnabled = "false";
+                const verified = "false";
+                const status = "active";
+                const remark = "user registered";
+
+                dataFactory.registerUser(userName, password, secondAuthEnabled, email, verified, status, remark, function (user) {
+                    console.log('Sucessfully registered user = ' + user);
+                });
+            }
 
         }])
 
@@ -38,11 +51,5 @@ angular.module('myApp.controllers', [])
         }])
     .controller('ReportController', ['$scope', '$rootScope', '$routeParams', '$upload', 'dataFactory',
         function ($scope, $rootScope, $routeParams, $upload, dataFactory) {
-
-        }])
-
-    .controller('EventManageCtrl', ['$scope', '$rootScope', '$routeParams', '$upload', 'toaster', '$filter', 'dataFactory',
-        function ($scope, $rootScope, $routeParams, $upload, toaster, $filter, dataFactory) {
-
 
         }]);

@@ -1,15 +1,16 @@
 <div>
-    <div class="page-content page-container" id="page-content">
+    <div class="page-content page-container">
         <div class="padding">
             <div class="row container d-flex justify-content-center">
                 <div class="col-md-6 col-lg-4">
                     <form class="card">
                         <h5 class="card-title fw-400">Sign Up</h5>
                         <div class="card-body">
-                            <div class="form-group"> <input class="form-control" type="text" placeholder="Email"> </div>
-                            <div class="form-group"> <input class="form-control" type="password" placeholder="Password">
+                            <div class="form-group"> <input class="form-control" ng-model="user.userName" type="text" placeholder="User Name"> </div>
+                            <div class="form-group"> <input class="form-control" ng-model="user.email" type="text" placeholder="Email"> </div>
+                            <div class="form-group"> <input class="form-control" ng-model="user.password" type="password" placeholder="Password">
                             </div>
-                            <div class="form-group"> <input class="form-control" type="password"
+                            <div class="form-group"> <input class="form-control" ng-model="user.confirmPassword" type="password"
                                     placeholder="Confirm Password"></div>
                             <div class="form-group">
                                 <input id="check" type="checkbox" class="form" checked>
@@ -17,8 +18,13 @@
                                     <span class="icon"></span> <a href="" class="link"> Accept Terms of Service</a>
                                 </label>
                             </div>
-                            <button class="btn btn-block btn-bold btn-primary">Sign Up</button>
+                            <button class="btn btn-block btn-bold btn-primary" ng-click="signUp()">Sign Up</button>
+
+                            <p class="signup_message">Already have an account?
+                                <a href="" ng-click="go('/login')" class="card-link"> Login</a>
+                            </p>  
                         </div>
+                        
                     </form>
                 </div>
             </div>

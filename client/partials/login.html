@@ -5,15 +5,16 @@
                 <div class="col-md-6 col-lg-4">
                     <form class="card">
                         <h5 class="card-title fw-400">Log In</h5>
-                        <div class="card-body">
-                            <p class="card-text">New here?
-                                <a href="" ng-click="go('/signup')" class="card-link"> Create an Account</a>
-                            </p>                            
-                        </div>
+                        
                         <div class="card-body">
                             <div class="form-group"> <input class="form-control" type="text" placeholder="Email"></div>
-                            <div class="form-group"> <input class="form-control" type="password" placeholder="Password"></div>                            
+                            <div class="form-group"> <input class="form-control" type="password" placeholder="Password"></div>
+                            <div class="login_remember_box"> <a href="" class="forget_password"> Forgot Password </a></div>
                             <button class="btn btn-block btn-bold btn-primary">Log In</button>
+
+                            <p class="signup_message">New here?
+                                <a href="" ng-click="go('/signup')" class="card-link"> Create an Account</a>
+                            </p>
                         </div>
                     </form>
                 </div>

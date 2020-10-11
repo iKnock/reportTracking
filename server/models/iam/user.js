@@ -4,11 +4,11 @@ const dbConnection = require('../../utils/connection');
 const AppExceptions = require('../../utils/appError');
 
 class User {
-    constructor(userId, userName, password, salt, email, verified, status, remark) {
+    constructor(userId, userName, password, isSecondAuthEnabled, email, verified, status, remark) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
-        this.salt = salt;
+        this.isSecondAuthEnabled = isSecondAuthEnabled;
         this.email = email;
         this.verified = verified;
         this.status = status;
@@ -29,8 +29,8 @@ class User {
         return this.password;
     }
 
-    getSalt() {
-        return this.salt;
+    getIsSecondAuthEnabled() {
+        return this.isSecondAuthEnabled;
     }
 
     getEmail() {
@@ -54,7 +54,7 @@ class User {
             userId: this.userId,
             userName: this.userName,
             password: this.password,
-            salt: this.salt,
+            isSecondAuthEnabled: this.isSecondAuthEnabled,
             email: this.email,
             verified: this.verified,
             status: this.status,
@@ -62,13 +62,13 @@ class User {
         };
     }
 
-    insertUser = function (callback) {
+    insertUser = function (userName, password, isSecondAuthEnabled, email, verified, status, remark, callback) {
         dbConnection.getConnection(function (connection, conError) {
             if (conError != null) {
                 const conErr = new AppExceptions(conError.code, conError.message);
                 callback(null, conErr);
             } else {
-                connection.query('INSERT INTO `tbl_user`(`user_name`, `password`, `salt`, `email`, `verified`, `status`, `remark`) VALUES (?,?,?,?,?,?,?)', [userId, userName, password, salt, email, verified, status, remark], function (error, results, fields) {
+                connection.query('INSERT INTO `tbl_user`(`user_name`, `password`, `is_second_auth_enabled`, `email`, `verified`, `status`, `remark`) VALUES (?,?,?,?,?,?,?)', [userName, password, isSecondAuthEnabled, email, verified, status, remark], function (error, results, fields) {
                     try {
                         console.log('result= ' + results)
 
@@ -101,7 +101,7 @@ class User {
                                     results[i].user_id,
                                     results[i].user_name,
                                     results[i].password,
-                                    results[i].salt,
+                                    results[i].is_second_auth_enabled,
                                     results[i].email,
                                     results[i].verified,
                                     results[i].status,

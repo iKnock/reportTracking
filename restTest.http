@@ -1,1 +1,1 @@
-GET http://localhost:3000/api/v1/zone/details
+POST http://localhost:3000/api/v1/user/register

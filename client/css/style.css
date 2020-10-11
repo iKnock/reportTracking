@@ -97,3 +97,23 @@ h5.card-title {
     display: flex;
     min-width: 18px
 }
+
+.login_remember_box {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    color: #999
+}
+
+.login_remember_box .forget_password {
+    float: right;
+    color: #db4c3e;
+    line-height: 12px;
+    text-decoration: underline
+}
+
+.signup_message {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
