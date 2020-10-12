@@ -7,7 +7,7 @@ angular.module('myApp.restServices', ['ngResource'])
             var dataFactory = {};
 
             //POST============================================================
-            dataFactory.registerUser = function (userName, password, secondAuthEnabled, email, verified, status, remark, callback) {
+            dataFactory.signUpUser = function (userName, password, secondAuthEnabled, email, verified, status, remark, callback) {
                 console.log('registerUser rest dispatcher is called')
                 var user = $resource(urlBase + '/user/register', {}, {
                     'create': { method: 'POST' }
@@ -23,8 +23,8 @@ angular.module('myApp.restServices', ['ngResource'])
                         status: status,
                         remark: remark
                     },
-                    function (res, httpHeader) {                  
-                        callback(res);
+                    function (response, httpHeader) {                  
+                        callback(response);
                     });
             };
             return dataFactory;

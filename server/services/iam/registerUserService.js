@@ -1,6 +1,7 @@
 "use strict";
 
 const errorMessage = require('../../error_handling/errorMessage');
+const ResponseMessage = require('../../error_handling/responseMessage');
 const User = require('../../models/iam/user');
 
 function registerUser(request, response) {
@@ -17,14 +18,11 @@ function registerUser(request, response) {
     user.insertUser(userName, password, secondAuthEnabled, email, verified, status, remark, function (user, error) {
         if (error != null) {
             console.error(error);
-            response.json(errorMessage.onErrorInsertingUser);
-        } else {
-            response.json(
-                { 
-                'status': errorMessage.onSignUpSuccess.success, 
-                'message': errorMessage.onSignUpSuccess.message, 
-                'data': user 
-            });            
+            var responseMessage = new ResponseMessage(error.errorCode, error.message, errorMessage.onErrorInsertingUser);
+            response.json(responseMessage);
+        } else {            
+            var responseMessage = new ResponseMessage('200', errorMessage.onSignUpSuccess.message, user);
+            response.json(responseMessage);
         }
     })
 }

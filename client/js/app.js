@@ -12,6 +12,7 @@ angular.module('myApp', [
     $routeProvider.when('/reports', {templateUrl: '/partials/reports.html', controller: 'ReportController'});
     $routeProvider.when('/login', {templateUrl: '/partials/login.html', controller: 'LoginController'});
     $routeProvider.when('/signup', {templateUrl: '/partials/signup.html', controller: 'SignUpController'});
+    $routeProvider.when('/error', {templateUrl: '/partials/error.html', controller: 'ErrorController'});
 
     $routeProvider.otherwise({redirectTo: '/home'});
 

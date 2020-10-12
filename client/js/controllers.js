@@ -38,7 +38,7 @@ angular.module('myApp.controllers', [])
                 const status = "active";
                 const remark = "user registered";
 
-                dataFactory.registerUser(
+                dataFactory.signUpUser(
                     userName,
                     password,
                     secondAuthEnabled,
@@ -48,13 +48,24 @@ angular.module('myApp.controllers', [])
                     remark,
                     function (user) {
                         console.log('Sucessfully registered user = ' + JSON.stringify(user));
+                        if (user.responseCode == '200') {
+                            //clear the page
+                            //traverse to home page
+                            //enable the user info icon page at the header
+                            //put the user object to the rootscope user object
+                            //
+                        } else {
+                            $rootScope.cause = user.responseMessage;
+                            $rootScope.message = JSON.stringify(user.responseData.message);
+                            $scope.go('/error');                   
+                        }
                     });
             }
 
         }])
 
-    .controller('AboutController', ['$scope', '$rootScope', '$window', '$routeParams', 'dataFactory', 'leafletData',
-        function ($scope, $rootScope, $window, $routeParams, dataFactory, leafletData) {
+    .controller('ErrorController', ['$scope', '$rootScope', '$window', '$routeParams', 'dataFactory',
+        function ($scope, $rootScope, $window, $routeParams, dataFactory, leafletData) {         
 
         }])
     .controller('ReportController', ['$scope', '$rootScope', '$routeParams', '$upload', 'dataFactory',
