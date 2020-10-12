@@ -38,9 +38,17 @@ angular.module('myApp.controllers', [])
                 const status = "active";
                 const remark = "user registered";
 
-                dataFactory.registerUser(userName, password, secondAuthEnabled, email, verified, status, remark, function (user) {
-                    console.log('Sucessfully registered user = ' + user);
-                });
+                dataFactory.registerUser(
+                    userName,
+                    password,
+                    secondAuthEnabled,
+                    email,
+                    verified,
+                    status,
+                    remark,
+                    function (user) {
+                        console.log('Sucessfully registered user = ' + JSON.stringify(user));
+                    });
             }
 
         }])

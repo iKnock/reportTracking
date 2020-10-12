@@ -23,8 +23,8 @@ angular.module('myApp.restServices', ['ngResource'])
                         status: status,
                         remark: remark
                     },
-                    function (res, httpHeader) {
-                        callback(res.data);
+                    function (res, httpHeader) {                  
+                        callback(res);
                     });
             };
             return dataFactory;

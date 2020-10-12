@@ -1,8 +1,4 @@
 module.exports = {
-    onSuccess: {
-        success: true,
-        message: 'Details updated successfully'
-    },
     onAtlasNotFound: {
         success: false,
         message: 'Info Not Found'

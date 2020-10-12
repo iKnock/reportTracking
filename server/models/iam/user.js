@@ -68,11 +68,20 @@ class User {
                 const conErr = new AppExceptions(conError.code, conError.message);
                 callback(null, conErr);
             } else {
-                connection.query('INSERT INTO `tbl_user`(`user_name`, `password`, `is_second_auth_enabled`, `email`, `verified`, `status`, `remark`) VALUES (?,?,?,?,?,?,?)', [userName, password, isSecondAuthEnabled, email, verified, status, remark], function (error, results, fields) {
-                    try {
-                        console.log('result= ' + results)
+                connection.query('INSERT INTO `tbl_user`(`user_name`, `password`, `is_second_auth_enabled`, `email`, `verified`, `status`, `remark`) VALUES (?,?,?,?,?,?,?)', 
+                [userName, password, isSecondAuthEnabled, email, verified, status, remark], function (error, results, fields) {
+                    try {                        
+                        var user = {
+                            'userId': results.insertId,
+                            'userName': userName,
+                            'email': email,
+                            'isSecondAuthEnabled': isSecondAuthEnabled,
+                            'verified': verified
+                        }
 
-                        callback(results);
+                        console.log('<user.js> - user= ' + JSON.stringify(user))
+
+                        callback(user, null);
                         connection.release();// When done with the connection, release it.                    
                         if (error) throw error;// Handle error after the release.  
                     } catch (error) {

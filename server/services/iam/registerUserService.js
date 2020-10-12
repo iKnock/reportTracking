@@ -1,10 +1,10 @@
 "use strict";
 
-const httpResponse = require('./index');
+const errorMessage = require('../../error_handling/errorMessage');
 const User = require('../../models/iam/user');
 
 function registerUser(request, response) {
-    console.log("register user service is called: "+JSON.stringify(request.body))
+    console.log("register user service is called: " + JSON.stringify(request.body))
     var user = new User();
     const userName = request.body.userName;
     const password = request.body.password;
@@ -17,14 +17,18 @@ function registerUser(request, response) {
     user.insertUser(userName, password, secondAuthEnabled, email, verified, status, remark, function (user, error) {
         if (error != null) {
             console.error(error);
-            console.log(response)
+            response.json(errorMessage.onErrorInsertingUser);
         } else {
-            response.json(user);
-            //console.log(response)
+            response.json(
+                { 
+                'status': errorMessage.onSignUpSuccess.success, 
+                'message': errorMessage.onSignUpSuccess.message, 
+                'data': user 
+            });            
         }
     })
 }
 
 module.exports = {
-    registerUser: registerUser 
+    registerUser: registerUser
 };
