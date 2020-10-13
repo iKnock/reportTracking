@@ -30,42 +30,47 @@ angular.module('myApp.controllers', [])
             console.log('sign up controller called')
 
             $scope.signUp = function () {
-                const userName = $scope.user.userName;
-                const password = $scope.user.password;
-                const email = $scope.user.email;
-                const secondAuthEnabled = "false";
-                const verified = "false";
-                const status = "active";
-                const remark = "user registered";
-
                 dataFactory.signUpUser(
-                    userName,
-                    password,
-                    secondAuthEnabled,
-                    email,
-                    verified,
-                    status,
-                    remark,
-                    function (user) {
-                        console.log('Sucessfully registered user = ' + JSON.stringify(user));
-                        if (user.responseCode == '200') {
+                    $scope.user.userName,
+                    $scope.user.password,
+                    "false",
+                    $scope.user.email,
+                    "false",
+                    "active",
+                    "user registered",
+                    function (userInfo) {
+                        console.log('Sucessfully registered user = ' + JSON.stringify(userInfo));
+                        if (userInfo.responseCode == '200') {
+                            delete $scope.user;
+
+                            $rootScope.userName = JSON.stringify(userInfo.responseData.userName)
+                            $rootScope.email = JSON.stringify(userInfo.responseData.email)
+                            $rootScope.twoFactor = JSON.stringify(userInfo.responseData.isSecondAuthEnabled)
+                            $rootScope.verified = JSON.stringify(userInfo.responseData.verified)
+
+                            $scope.go('/userInfo')
+
                             //clear the page
                             //traverse to home page
                             //enable the user info icon page at the header
                             //put the user object to the rootscope user object
                             //
                         } else {
-                            $rootScope.cause = user.responseMessage;
-                            $rootScope.message = JSON.stringify(user.responseData.message);
-                            $scope.go('/error');                   
+                            delete $scope.user;
+                            $rootScope.cause = userInfo.responseMessage;
+                            $rootScope.message = JSON.stringify(userInfo.responseData.message);
+                            $scope.go('/error');
                         }
                     });
             }
 
         }])
+    .controller('UserInfoController', ['$scope', '$rootScope', '$window', '$routeParams', 'dataFactory',
+        function ($scope, $rootScope, $window, $routeParams, dataFactory, leafletData) {
 
+        }])
     .controller('ErrorController', ['$scope', '$rootScope', '$window', '$routeParams', 'dataFactory',
-        function ($scope, $rootScope, $window, $routeParams, dataFactory, leafletData) {         
+        function ($scope, $rootScope, $window, $routeParams, dataFactory, leafletData) {
 
         }])
     .controller('ReportController', ['$scope', '$rootScope', '$routeParams', '$upload', 'dataFactory',

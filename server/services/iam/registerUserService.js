@@ -17,10 +17,12 @@ function registerUser(request, response) {
 
     user.insertUser(userName, password, secondAuthEnabled, email, verified, status, remark, function (user, error) {
         if (error != null) {
+            delete password;
             console.error(error);
             var responseMessage = new ResponseMessage(error.errorCode, error.message, errorMessage.onErrorInsertingUser);
             response.json(responseMessage);
         } else {            
+            delete password;
             var responseMessage = new ResponseMessage('200', errorMessage.onSignUpSuccess.message, user);
             response.json(responseMessage);
         }
