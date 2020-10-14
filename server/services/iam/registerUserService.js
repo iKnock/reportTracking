@@ -14,15 +14,14 @@ function registerUser(request, response) {
     const verified = request.body.verified;
     const status = request.body.status;
     const remark = request.body.remark;
+    console.error(password);
 
     user.insertUser(userName, password, secondAuthEnabled, email, verified, status, remark, function (user, error) {
         if (error != null) {
-            delete password;
             console.error(error);
             var responseMessage = new ResponseMessage(error.errorCode, error.message, errorMessage.onErrorInsertingUser);
             response.json(responseMessage);
-        } else {            
-            delete password;
+        } else {
             var responseMessage = new ResponseMessage('200', errorMessage.onSignUpSuccess.message, user);
             response.json(responseMessage);
         }

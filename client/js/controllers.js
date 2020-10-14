@@ -4,6 +4,9 @@ angular.module('myApp.controllers', [])
     .controller('MainCtrl', ['$scope', '$rootScope', '$window', '$filter', '$location', '$http', 'dataFactory',
         function ($scope, $rootScope, $window, $filter, $location, $http, dataFactory) {
             $scope.slide = '';
+
+            $rootScope.showlogIn=true;
+
             $rootScope.back = function () {
                 $scope.slide = 'slide-right';
                 $window.history.back();
@@ -43,10 +46,14 @@ angular.module('myApp.controllers', [])
                         if (userInfo.responseCode == '200') {
                             delete $scope.user;
 
+                            $rootScope.userId = JSON.stringify(userInfo.responseData.userId)
                             $rootScope.userName = JSON.stringify(userInfo.responseData.userName)
                             $rootScope.email = JSON.stringify(userInfo.responseData.email)
                             $rootScope.twoFactor = JSON.stringify(userInfo.responseData.isSecondAuthEnabled)
                             $rootScope.verified = JSON.stringify(userInfo.responseData.verified)
+
+                            $rootScope.showUserInfo = true;
+                            $rootScope.showlogIn=false;
 
                             $scope.go('/userInfo')
 
