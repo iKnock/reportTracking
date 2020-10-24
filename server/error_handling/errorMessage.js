@@ -49,5 +49,13 @@ module.exports = {
     onErrorInsertingUser: {
         success: false,
         message: 'Error inserting User'
+    },
+    onErrorUsingCrypto: {
+        success: false,
+        message: 'crypto support is disabled!'
+    },
+    onErrorReadingUser: {
+        success: false,
+        message: 'Error reading User'
     }
 };

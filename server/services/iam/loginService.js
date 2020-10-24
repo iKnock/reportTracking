@@ -5,6 +5,7 @@ const router = express.Router();**/
 
 const httpResponse = require('./index');
 const User = require('../../models/iam/user');
+const errorMessage = require('../../error_handling/errorMessage');
 
 function fetchUser(request, response) {
     var user = new User();
@@ -20,6 +21,36 @@ function fetchUser(request, response) {
             //console.log(response)
         }
     })
+}
+
+let crypto;
+try {
+    crypto = require('crypto');
+} catch (err) {
+    console.error('crypto support is disabled!');
+    var responseMessage = new ResponseMessage('500', errorMessage.onErrorUsingCrypto.message, errorMessage.onErrorUsingCrypto);
+    response.json(responseMessage);
+}
+
+function hashPassword(password, salt) {
+    const hash = crypto.createHmac('sha256', salt)
+        .update(password)
+        .digest('base64');
+    return hash;
+}
+
+function findSalt(userName) {
+    let salt;
+    userObj.findUserByUserName(userName, function (user, error) {
+        if (error != null) {
+            console.error(error);
+            var responseMessage = new ResponseMessage(error.errorCode, error.message, errorMessage.onErrorReadingUser);
+            response.json(responseMessage);
+        } else {
+            salt = user.getSalt();
+        }
+    })
+    return salt;
 }
 
 function logIn(request, response) {
