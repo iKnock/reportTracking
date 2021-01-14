@@ -33,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     margin: theme.spacing(1, 1.5),
+    borderLeft: '1px solid',
+    padding: theme.spacing(1, 1, 1, 1),
   },
   heroContent: {
     padding: theme.spacing(8, 0, 6),
@@ -121,7 +123,7 @@ export default function Home() {
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            Company name
+            Inciedent Reporting
           </Typography>
           <nav>
             <Link variant="button" color="textPrimary" href="#" className={classes.link}>

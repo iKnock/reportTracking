@@ -7,11 +7,12 @@ import Copyright from './component/Copyright'
 import SignIn from './component/SignIn'
 import SignUp from './component/SignUp'
 import Home from './container/Home'
+import Landing from './container/Landing'
 
 export default function App() {
   return (
     <div>
-      <SignUp />
+      <Landing />
       
     </div>
   );
