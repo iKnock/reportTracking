@@ -9,12 +9,25 @@ import SignUp from './component/SignUp'
 import Home from './container/Home'
 import Landing from './container/Landing'
 
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      'Indie Flower',
+      'cursive',
+    ].join(','),
+  },
+});
+
 export default function App() {
+
   return (
-    <div>
-      <Landing />
-      
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Landing />        
+      </div>
+    </ThemeProvider>
   );
 
   {/*

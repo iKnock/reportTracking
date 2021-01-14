@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, CssBaseline, IconButton, Toolbar } from '@material-ui/core';
+import { AppBar, CssBaseline, IconButton, Toolbar, Collapse } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -13,10 +13,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        fontFamily: 'Nunito',
     },
     appBar: {
-        background: 'none'
+        background: 'none',
     },
     appBarTitle: {
         flexGrow: '1'
@@ -47,12 +46,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
     const classes = useStyles();
+    const [checked, setChecked] = useState(false);
+    useEffect(() => {
+        setChecked(true);
+    }, []);
     return (
-        <div>
+        <div className={classes.root} id="header">
             <AppBar className={classes.appBar} elevation={0}>
                 <Toolbar className={classes.appBarWrapper}>
                     <h1 className={classes.appBarTitle}>
-                        iknock <span className={classes.titleColor}>Solution</span>
+                        iknock <span className={classes.titleColor}>Solutions</span>
                     </h1>
                     <IconButton>
                         <SortIcon className={classes.icon} />
@@ -67,8 +70,7 @@ export default function Header() {
             >
                 <div className={classes.container}>
                     <h1 className={classes.title}>
-                        Welcome to <br />
-            My<span className={classes.colorText}>Island.</span>
+                        Welcome to <br />iknock <span className={classes.titleColor}>Solutions.</span>
                     </h1>
                     <Scroll to="place-to-visit" smooth={true}>
                         <IconButton>
@@ -79,5 +81,4 @@ export default function Header() {
             </Collapse>
         </div>
     );
-
 }
