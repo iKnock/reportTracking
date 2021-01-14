@@ -48,6 +48,27 @@ function registerUser(request, response) {
     })
 }
 
+function fetchUserInfo(request, response) {
+    var user = new User();
+    const email = request.params.email;
+
+    user.findUserByEmail(email, function (userInfo, error) {
+        if (error != null) {
+            console.error(error);
+            response.json({
+                success: error.errorCode,
+                message: error.message
+            })
+        } else {
+            //handle here when query return empity result           
+            if (userInfo == null)
+            var responseMessage = new ResponseMessage('200', errorMessage.onSuccessReadingUser.message, userInfo);
+            response.json(userInfo);
+            //console.log(response)
+        }
+    })
+}
+
 module.exports = {
     registerUser: registerUser
 };

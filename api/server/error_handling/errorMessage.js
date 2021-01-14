@@ -57,5 +57,9 @@ module.exports = {
     onErrorReadingUser: {
         success: false,
         message: 'Error reading User'
+    },
+    onSuccessReadingUser: {
+        success: false,
+        message: 'User Info'
     }
 };
